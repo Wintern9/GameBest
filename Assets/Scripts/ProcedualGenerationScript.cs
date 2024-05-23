@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,23 +6,21 @@ using UnityEngine;
 public class ProcedualGenerationScript : MonoBehaviour
 {
     ProcedualController controller;
-    private GameObject[] ProcedualPrefabs;
 
-    public GameObject spawnPosition;
-    public float spawnInterval = 2.0f;
+    [SerializeField] private GameObject spawnPosition;
+    private float spawnInterval = 2.0f;
 
     void Start()
     {
         controller = FindFirstObjectByType<ProcedualController>();
-        ProcedualPrefabs = controller.GetProcedualPrefabs();
-        InvokeRepeating("SpawnObject", 0, spawnInterval);
+        controller.Platforms.Add(gameObject);
     }
 
-    void SpawnObject()
+    public void SpawnObject()
     {
-        if(Instantiate(ProcedualPrefabs[0], spawnPosition.transform.position, Quaternion.identity))
+        if(Instantiate(controller.GetRandomProcedualPrefabs(), spawnPosition.transform.position, Quaternion.identity))
         { 
-            Destroy(gameObject);
+            //Destroy(gameObject);
         }
     }
 }
